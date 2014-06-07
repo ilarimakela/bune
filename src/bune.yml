@@ -1,0 +1,6 @@
+---
+
+task:
+    shutdownBune:
+        match: killbune.sh
+        run: ./killbune.sh

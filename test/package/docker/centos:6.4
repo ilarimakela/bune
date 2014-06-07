@@ -1,0 +1,15 @@
+FROM centos:6.4
+ 
+# Extend yum cache times to 24 hours 
+RUN echo "metadata_expire=86400" >> /etc/yum.conf
+RUN echo "mirrorlist_expire=86400" >> /etc/yum.conf
+
+RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+RUN yum -y update
+
+# Install Bune dependencies
+RUN yum -y install perl perl-Linux-Inotify2 perl-YAML perl-Text-Glob
+ 
+RUN curl --location https://github.com/sstephenson/bats/archive/v0.3.1.tar.gz | tar zx 
+RUN ./bats-0.3.1/install.sh /usr/local
+

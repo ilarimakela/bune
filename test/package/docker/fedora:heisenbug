@@ -1,0 +1,14 @@
+FROM fedora:heisenbug
+ 
+# Extend yum cache times to 24 hours 
+RUN echo "metadata_expire=86400" >> /etc/yum.conf
+RUN echo "mirrorlist_expire=86400" >> /etc/yum.conf
+
+RUN yum -y update
+
+# Install Bune dependencies
+RUN yum -y install perl perl-Linux-Inotify2 perl-YAML perl-Text-Glob
+ 
+RUN curl --location https://github.com/sstephenson/bats/archive/v0.3.1.tar.gz | tar zx 
+RUN ./bats-0.3.1/install.sh /usr/local
+

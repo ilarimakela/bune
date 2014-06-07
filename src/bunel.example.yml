@@ -1,0 +1,16 @@
+---
+
+config:
+    exclude directories:
+        - build
+        - "**/lib"
+task:
+    brainfuck:
+        match: lib/encrypt/rot13.b
+        run: bf
+
+    lolcode:
+        match: lib/cat/*.lol
+        run: ./../bin/KTHXBYE.sh
+        ignore:
+            - lolcats.lol
