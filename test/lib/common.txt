@@ -1,0 +1,20 @@
+*** Settings ***
+Library  OperatingSystem
+
+
+*** Variables ***
+${BUNE OUTPUT}  ${OUTPUT DIR}/bune.output
+
+
+*** Keywords ***
+Start Bune
+  [Arguments]  ${yaml}=${EMPTY}   ${directory}=${EMPTY}
+  Run  TESTRUN=1 ./../src/bune.pl ${yaml} ${directory} &>${BUNE OUTPUT}
+
+Bune should output
+  [Arguments]  ${line}  ${regex}
+  ${OUTPUT} =  Run  cat ${BUNE OUTPUT} | sed -n ${line}p
+  Should Match Regexp  ${OUTPUT}  ${regex}
+
+Shutdown Bune
+  Run  kill $(ps xa | grep "TESTRUN=1 [b]une.pl" | awk '{print $1}')

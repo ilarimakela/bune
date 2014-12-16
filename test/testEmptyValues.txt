@@ -1,0 +1,12 @@
+*** Settings ***
+Resource  lib/common.txt
+
+Test Teardown  Shutdown Bune
+
+
+*** Test Case ***
+Start Bune without parameters and get usage info
+  Start Bune
+  Bune should output  1  Bune [0-9{.}]* Made in Spoon Factory
+  Bune should output  2  ${EMPTY}
+  Bune should output  3  Usage: ./../src/bune.pl yaml directory
