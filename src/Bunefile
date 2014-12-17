@@ -1,9 +1,9 @@
 ---
 
 config:
-    exclude directories:
-        - build
-        - "**/lib"
+    exclude:
+        - dist
+
 task:
     brainfuck:
         match: lib/encrypt/rot13.b
@@ -11,6 +11,13 @@ task:
 
     lolcode:
         match: lib/cat/*.lol
-        run: ./../bin/KTHXBYE.sh
+        run: ./../bin/KTHXBYE.sh --file {} --destination dist
         ignore:
             - lolcats.lol
+
+    custom:
+        match: 
+        inline: |
+            read filename
+            date=$(date "+%Y-%m-%d")
+            echo "$date: $filename"
