@@ -4,11 +4,16 @@ Library  OperatingSystem
 
 *** Variables ***
 ${BUNE OUTPUT}  ${OUTPUT DIR}/bune.output
-
+${BUNE DIR}  ${EMPTY}
 
 *** Keywords ***
+Make temporary directory for test
+  ${BUNE DIR} =  Run  mktemp --directory --suffix=.bune /tmp/XXXXXX
+  Run  echo ${BUNE DIR} > /tmp/file
+
 Start Bune
   [Arguments]  ${yaml}=${EMPTY}   ${directory}=${EMPTY}
+  Run  echo ${BUNE DIR} > /tmp/file
   Run  TESTRUN=1 ./../src/bune.pl ${yaml} ${directory} &>${BUNE OUTPUT}
 
 Bune should output
@@ -16,5 +21,8 @@ Bune should output
   ${OUTPUT} =  Run  cat ${BUNE OUTPUT} | sed -n ${line}p
   Should Match Regexp  ${OUTPUT}  ${regex}
 
-Shutdown Bune
+Shutdown Bune and clean up
   Run  kill $(ps xa | grep "TESTRUN=1 [b]une.pl" | awk '{print $1}')
+  Run  rm -rf ${BUNE DIR}
+
+
